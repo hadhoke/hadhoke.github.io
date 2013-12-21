@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Maze solver</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph tags -->
+
+            <meta property="og:type" content="article"/>
+            <meta property="og:title" content="Maze solver"/>
+            <meta property="og:url" content="http://localhost:8888/fr/maze-solver-using-image-processing/"/>
+            <meta property="og:description" content="Short version for index and feeds"/>
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://localhost:8888/fr/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://localhost:8888/fr/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://localhost:8888/fr/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://localhost:8888/fr/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://localhost:8888/fr/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+
+
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://localhost:8888/fr" class="navbar-brand"><code>#define UNDEFINED</code></a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li><a href="http://localhost:8888/fr/pages/about.html">À propos</a></li>
+                        <li class="active">
+                            <a href="http://localhost:8888/fr/category/image-processing.html">Image processing</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://localhost:8888/fr" style="padding-right: 2px">[Français]</a></li>
+                <li><a style="padding-right: 2px; padding-left: 2px;">-</a></li>
+                <li><a href="http://localhost:8888/en" style="padding-left: 2px"></i>English</a></li>
+                <li><a href="http://localhost:8888/fr/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</nav>
+<!-- /.navbar -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://localhost:8888/fr/maze-solver-using-image-processing/"
+                       rel="bookmark"
+                       title="Permalink to Maze solver">
+                        Maze solver
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="icon-calendar"></i>Mar 03 décembre 2013
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://localhost:8888/fr/tag/image-processing.html">Image processing</a>
+        /
+	<a href="http://localhost:8888/fr/tag/c.html">C++</a>
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h1>Maze solver (traitement d'image)</h1>
+<p>Lien du git : <a href="https://bitbucket.org/TrashZen/maze-solver/">https://bitbucket.org/TrashZen/maze-solver/</a></p>
+<p>Maze Solver est un solveur de labyrinthe. Il prend une image de labyrinthe (le type de labyrinthe disponible dans les magasines pour enfants) et trace la solution en rouge.
+<img alt="Maze solution example" src="https://bitbucket.org/TrashZen/maze-solver/raw/731b435d78e58a8f5401741b2efa4db314a83f01/resource/doc/solution.png" /></p>
+<h1>Installation</h1>
+<hr />
+<h2>Outils requis</h2>
+<p>Pour compiler, vous avez besoin de CMake et de la librairie X11-dev.</p>
+<h4>Linux</h4>
+<div class="highlight"><pre><span class="err">$</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libx11</span><span class="o">-</span><span class="n">dev</span>
+<span class="err">$</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">cmake</span>
+</pre></div>
+
+
+<h4>Mac OS</h4>
+<p>Téléchargez XQuartz (X11) ici : <a href="http://xquartz.macosforge.org/">http://xquartz.macosforge.org/</a></p>
+<p>Si vous n'avez pas homebrew, téléchargez le ici : <a href="http://brew.sh">http://brew.sh</a> (en bas de la page), puis</p>
+<div class="highlight"><pre><span class="err">$</span> <span class="n">brew</span> <span class="n">install</span> <span class="n">cmake</span>
+</pre></div>
+
+
+<h2>Compilation</h2>
+<div class="highlight"><pre><span class="err">$</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="o">:</span><span class="c1">//bitbucket.org/TrashZen/maze-solver.git</span>
+<span class="err">$</span> <span class="n">cd</span> <span class="n">maze</span><span class="o">-</span><span class="n">solver</span>
+<span class="err">$</span> <span class="n">cmake</span> <span class="n">CMakeLists</span><span class="p">.</span><span class="n">txt</span>
+<span class="err">$</span> <span class="n">make</span>
+</pre></div>
+
+
+<p>L'exécutable est créé dans le répertoire <code>build/</code></p>
+<h1>Utilisation</h1>
+<hr />
+<p>Lancez l'exécutable avec la commande suivante</p>
+<div class="highlight"><pre><span class="err">$</span> <span class="n">build</span><span class="o">/</span><span class="n">mazesolver</span>
+</pre></div>
+
+
+<p>Les images d'exemples sont dans le répertoire <code>resource/</code>, donc lorsqu'il vous demande <code>Name of the maze to solve</code> écrivez par exemple <code>resource/maze1.bmp</code> (seul les images bmp sont autorisées, sauf si vous activez la gestion des JPEG et PNG (voir plus bas)). Une fois l'image affiché, cliquez sur le point de départ du labyrinthe, puis le point de fin.</p>
+<p>Attendez quelques secondes et la solution apparait.</p>
+<h4>JPEG et PNG</h4>
+<p>Si vous souhaitez ouvrir des images de labyrinthes au format JPEG ou PNG et que vous disposez de la libjpeg et libpng, alors il vous suffit de décommenter les lignes suivantes dans <code>CMakeLists.txt</code> (fin du fichier)</p>
+<div class="highlight"><pre><span class="c"># target_link_libraries(mazesolver X11 pthread png jpeg)</span>
+</pre></div>
+
+
+<p>Et dans <code>operator.h</code></p>
+<div class="highlight"><pre><span class="c1">// #define cimg_use_png 1</span>
+<span class="c1">// #define cimg_use_jpeg 1</span>
+</pre></div>
+
+
+<h1>Algorithmes</h1>
+<hr />
+<h3>Préambule</h3>
+<p>Quelques informations sur les images en général ...</p>
+<p>Une image noir et blanc est simplement un tableau de deux dimensions, chaque case correspond à un pixel. La valeur d'une case correspond au niveau de gris : 0 correspond au noir, 255 au blanc.</p>
+<p>Pour une image couleur, chaque pixel est définit par trois valeurs : le rouge, le vert et le bleu. Chacun étant comprit entre 0 et 255.</p>
+<p>Afin d'ouvrir les images et de les modifier facilement, j'utilise une bibliothque nommée <a href="http://cimg.sourceforge.net">CImg</a> (Cool Image). Elle est simple à prendre en main et plutôt complète.</p>
+<p>Pour charger une image, il faut passer le chemin de l'image au constructeur de la classe .</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">CImg</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">&gt;</span> <span class="n">image</span><span class="p">(</span><span class="s">&quot;lena_noir_et_blanc.bmp&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<p>Exemple de parcourt d'une image noir et blanc, pixel par pixel :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">height</span><span class="p">();</span> <span class="o">++</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">image</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">-</span> <span class="n">image</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>Cette exemple calcul le négatif d'une image. Pour afficher le résultat il suffit d'appeler la méthode <code>display</code>.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">image</span><span class="p">.</span><span class="n">display</span><span class="p">();</span>
+</pre></div>
+</td></tr></table>
+
+<h3>Description de Maze Solver</h3>
+<p>Pour commencer je vais d'abord ouvrir une image de labyrinthe puis la copier dans une image temporaire pour pouvoir la modifier tout en gardant l'original.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">ImageUchar</span> <span class="nf">maze_image</span><span class="p">(</span><span class="n">maze_name</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="n">ImageUchar</span> <span class="nf">tmp_image</span><span class="p">(</span><span class="n">maze_image</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<p><img alt="Maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/maze3.bmp" /></p>
+<p>Le première étape est de transformer l'image couleur (rouge, vert, bleu) en noir et blanc (image en niveau de gris). Le gris est la moyenne pondérée de chaque couleurs. On va donc passer sur chaque pixel, faire la moyenne pondérée entre le rouge, le vert et le bleu et stocker le résultat dans l'image en niveau de gris.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">rgb_to_grayscale</span><span class="p">(</span><span class="n">tmp_image</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<p><img alt="Grayscale maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/doc/1_rgb_to_grayscale.png" /></p>
+<p>L'étape suivante est la binarisation de l'image, c'est à dire que l'image doit contenir uniquement du blanc ou du noir, mais pas de nuances de gris. Pour cela, j'utilise un seuil : tous les pixels inférieurs au seuil seront noir (0) et tous ceux supérieur seront blanc (255). Après cette étape, j'ai une image avec les murs du labyrinthe en noir et les chemins en blanc. Attention : la valeur du seuil est très importante car avec un seuil trop bas les murs peuvent disparaitre et avec un seuil trop haut les chemins peuvent disparaitre.</p>
+<p>Ici j'utilise un seuil de 210.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">binarization</span><span class="p">(</span><span class="n">tmp_image</span><span class="p">,</span> <span class="mi">210</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<p><img alt="Binary maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/doc/2_binarization.png" /></p>
+<p>Afin de corriger quelques imperfections possible de l'image et de la binarisation, j'effectue une érosion sur l'image. Cela a comme conséquence d'épaissir les régions noirs, soit les murs dans notre cas.</p>
+<p>Erosion : chaque pixel de l'image vaut le minimum de ses voisins et de lui-même. Voici un exemple d'érosion :</p>
+<p><img alt="Erosion example" src="http://www.cs.auckland.ac.nz/courses/compsci773s1c/lectures/ImageProcessing-html/mor-pri-erosion.gif" /></p>
+<p>Application de l'érosion au labyrinthe :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">erosion</span><span class="p">(</span><span class="n">tmp_image</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<p><img alt="Erosion maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/doc/3_erosion.png" /></p>
+<p>Je dois désormais réduire la largeur des chemins pour qu'ils ne fassent qu'un pixel de large. J'utilise pour cela un algorithme de squelettisation qui permet de récupérer le squelette d'une image. Voici un exemple visuel qui est plus parlant qu'une longue explication :</p>
+<p>En gris claire est affiché l'image de base, et en noir son squelette.</p>
+<p><img alt="Skeleton example" src="http://www-artemis.it-sudparis.eu/Artemis/Research/Retinas/images/figure6.gif" /></p>
+<p>L'algorithme consiste à appliquer une succession de diffèrents éléments structurants jusqu'à la stabilité de l'image. Voici le résultat sur notre labyrinthe :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">skeletonization</span><span class="p">(</span><span class="n">tmp_image</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<p><img alt="Skeleton maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/doc/5_skeletonization.png" /></p>
+<p>Dernière grosse étape : trouver le plus court chemin du point de début à l'arrivée. Pour cela j'utilise un algorithme très célèbre : le A* (astar). Voici un exemple :</p>
+<p><img alt="A* example" src="http://upload.wikimedia.org/wikipedia/commons/f/f4/Pathfinding_A_Star.svg" /></p>
+<p>Le pixel vert est le point de départ, avec la valeur 0. Tous ses voisins sans valeur sont affectés avec la valeur du pixel courant + 1 et ajoutés dans une <code>queue</code>. Puis on traite le premier pixel de la <code>queue</code> et on recommence.</p>
+<p>Lorsque le point de fin est atteint (le point bleu sur l'exemple), l'algorithme est finit. Il suffit juste de suivre le chemin inverse, de la valeur maximal (19 sur l'exemple) vers 0.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">astar</span><span class="p">(</span><span class="n">tmp_image</span><span class="p">,</span> <span class="n">start_point</span><span class="p">,</span> <span class="n">end_point</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<p><img alt="A* maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/doc/6_astar.png" /></p>
+<p>Dernière étape : superposer la solution avec l'image d'origine, en transformant le chemin blanc en chemin rouge. Et on effectue la sauvegarde de la solution.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">merge</span><span class="p">(</span><span class="n">tmp_image</span><span class="p">,</span> <span class="n">maze_image</span><span class="p">);</span>
+<span class="n">maze_image</span><span class="p">.</span><span class="n">save_bmp</span><span class="p">(</span><span class="s">&quot;solution.bmp&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<p><img alt="Solution maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/doc/7_solution.png" /></p>
+<p>Pour plus d'informations sur le traitement d'image : <a href="http://raphaello.univ-fcomte.fr/ig/traitementimages/TraitementImages.htm">Le traitement d'images</a>.</p>
+<p>Il est en français et détails notamment les algorithmes d'érosion et de squelettisation.</p>
+<p>Alexis François</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-lg-3 well well-sm" id="sidebar">
+<aside>
+    <section>
+        <ul class="list-group list-group-flush">
+                <li class="list-group-item"><h4><i class="icon-home icon-large"></i>Social</h4></li>
+                    <li class="list-group-item"><a href="http://www.linkedin.com/in/francoisalexis"><i
+                            class="icon-linkedin-sign icon-large"></i>linkedin
+                    </a></li>
+                    <li class="list-group-item"><a href="https://bitbucket.org/TrashZen"><i
+                            class="icon-bitbucket-sign icon-large"></i>bitbucket
+                    </a></li>
+
+
+
+            <li class="list-group-item"><a href="http://localhost:8888/fr/tags.html"><h4><i class="icon-tags icon-large"></i>Tags</h4></a></li>
+                <li class="list-group-item tag-4">
+                    <a href="http://localhost:8888/fr/tag/c.html">
+                        C++
+                    </a>
+                </li>
+                <li class="list-group-item tag-4">
+                    <a href="http://localhost:8888/fr/tag/image-processing.html">
+                        Image processing
+                    </a>
+                </li>
+        </ul>
+    </section>
+</aside>        </div>
+    </div>
+</div>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://localhost:8888/fr/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://localhost:8888/fr/theme/js/respond.min.js"></script>
+</body>
+</html>

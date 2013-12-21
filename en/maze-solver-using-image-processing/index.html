@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Maze solver</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph tags -->
+
+            <meta property="og:type" content="article"/>
+            <meta property="og:title" content="Maze solver"/>
+            <meta property="og:url" content="http://localhost:8888/en/maze-solver-using-image-processing/"/>
+            <meta property="og:description" content="Short version for index and feeds"/>
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://localhost:8888/en/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://localhost:8888/en/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://localhost:8888/en/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://localhost:8888/en/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://localhost:8888/en/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+
+
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://localhost:8888/en" class="navbar-brand"><code>#define UNDEFINED</code></a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li><a href="http://localhost:8888/en/pages/about.html">About</a></li>
+                        <li class="active">
+                            <a href="http://localhost:8888/en/category/image-processing.html">Image processing</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://localhost:8888/fr" style="padding-right: 2px">Français</a></li>
+                <li><a style="padding-right: 2px; padding-left: 2px;">-</a></li>
+                <li><a href="http://localhost:8888/en" style="padding-left: 2px"></i>[English]</a></li>
+                <li><a href="http://localhost:8888/en/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</nav>
+<!-- /.navbar -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://localhost:8888/en/maze-solver-using-image-processing/"
+                       rel="bookmark"
+                       title="Permalink to Maze solver">
+                        Maze solver
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="icon-calendar"></i>Mar 03 décembre 2013
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://localhost:8888/en/tag/image-processing.html">Image processing</a>
+        /
+	<a href="http://localhost:8888/en/tag/c.html">C++</a>
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h1>Maze solver (image processing)</h1>
+<p>This is a trivial maze solver. Takes a maze image, and draws the solution line. 
+<img alt="Maze solution example" src="https://bitbucket.org/TrashZen/maze-solver/raw/731b435d78e58a8f5401741b2efa4db314a83f01/resource/doc/solution.png" /></p>
+<h1>Installation</h1>
+<hr />
+<h2>Tools required</h2>
+<p>To compile maze solver, you need CMake and X11-dev</p>
+<h4>Linux</h4>
+<div class="highlight"><pre><span class="err">$</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libx11</span><span class="o">-</span><span class="n">dev</span>
+<span class="err">$</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">cmake</span>
+</pre></div>
+
+
+<h4>Mac OS</h4>
+<p>Download XQuartz (X11) here : <a href="http://xquartz.macosforge.org/">http://xquartz.macosforge.org/</a></p>
+<p>If you don't have homebrew, download it here : <a href="http://brew.sh">http://brew.sh</a> (bottom of the page), then</p>
+<div class="highlight"><pre><span class="err">$</span> <span class="n">brew</span> <span class="n">install</span> <span class="n">cmake</span>
+</pre></div>
+
+
+<h2>Compilation</h2>
+<div class="highlight"><pre><span class="err">$</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="o">:</span><span class="c1">//bitbucket.org/TrashZen/maze-solver.git</span>
+<span class="err">$</span> <span class="n">cd</span> <span class="n">maze</span><span class="o">-</span><span class="n">solver</span>
+<span class="err">$</span> <span class="n">cmake</span> <span class="n">CMakeLists</span><span class="p">.</span><span class="n">txt</span>
+<span class="err">$</span> <span class="n">make</span>
+</pre></div>
+
+
+<p>The executable is in build directory</p>
+<h1>Usage</h1>
+<hr />
+<p>Launch it :</p>
+<div class="highlight"><pre><span class="err">$</span> <span class="n">build</span><span class="o">/</span><span class="n">mazesolver</span>
+</pre></div>
+
+
+<p>Mazes images examples are in <code>resource/</code> directory, so when ask you <code>Name of the maze to solve</code>, you can write <code>resource/maze1.bmp</code> (only bmp accepted).
+Once the image is display, clicking on the start of the maze, then on the end.</p>
+<p>Wait will compute the correct path, and watch the solution !</p>
+<h4>Enable jpeg and png support</h4>
+<p>In CMakeLists.txt uncomment this line (end of file)</p>
+<div class="highlight"><pre><span class="c"># target_link_libraries(mazesolver X11 pthread png jpeg)</span>
+</pre></div>
+
+
+<p>And in operator.h uncomment </p>
+<div class="highlight"><pre><span class="c1">// #define cimg_use_png 1</span>
+<span class="c1">// #define cimg_use_jpeg 1</span>
+</pre></div>
+
+
+<h1>Algorithm</h1>
+<hr />
+<p>First I open a maze image.</p>
+<p><img alt="Maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/maze3.bmp" /></p>
+<p>Then, I transform the RGB image into grayscale. It's easier to have one channel than three for further. Each pixel of grayscale image is a weighted average of RGB. Why an weighted average and not juste an average ? Because our eyes don't see red, green and blue in the same way.</p>
+<p><img alt="Grayscale maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/doc/1_rgb_to_grayscale.png" /></p>
+<p>I can now binarise the image using a threshold. It means that zero will be assigned to all pixel under the threshold, 255 otherwise. After this step I have a maze with wall in black (0), and path in white (255). The threshold value is very important, it depends on the type of input image.</p>
+<p><img alt="Binary maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/doc/2_binarization.png" /></p>
+<p>To correct some holes in the walls, I use an erosion. It will expand the walls. Each pixel assigned with the minimum value of his 8 neighbors and itself. This is an example of erosion :</p>
+<p><img alt="Erosion example" src="http://www.cs.auckland.ac.nz/courses/compsci773s1c/lectures/ImageProcessing-html/mor-pri-erosion.gif" /></p>
+<p>Applied it to the maze</p>
+<p><img alt="Erosion maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/doc/3_erosion.png" /></p>
+<p>Now I have to reduce path (white) to one pixel wide : I have to obtain the skeleton of the maze. So I use a skeletonization algorithm.</p>
+<p><img alt="Skeleton maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/doc/5_skeletonization.png" /></p>
+<p>Last big step : find the shortest path from the skeleton. To find it I use the A* (astar) algorithm.</p>
+<p>See this example :</p>
+<p><img alt="A* example" src="http://upload.wikimedia.org/wikipedia/commons/f/f4/Pathfinding_A_Star.svg" /></p>
+<p>The green pixel is the start point, with id 0. All neighbors not set is set to current id + 1 and added to a queue. Then it takes the first element of the queue and restart.</p>
+<p>When the end point is reached (the blue one), it stops. You just have to follow the reverse path, from maximum id (19 on example) to 0.</p>
+<p><img alt="A* maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/doc/6_astar.png" /></p>
+<p>Last step : merge the solution path with the original image.</p>
+<p><img alt="Solution maze" src="https://bitbucket.org/TrashZen/maze-solver/raw/1e5e60f3239b4335cbf88695ae63424f4faee0ad/resource/doc/7_solution.png" /></p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-lg-3 well well-sm" id="sidebar">
+<aside>
+    <section>
+        <ul class="list-group list-group-flush">
+                <li class="list-group-item"><h4><i class="icon-home icon-large"></i>Social</h4></li>
+                    <li class="list-group-item"><a href="http://www.linkedin.com/in/francoisalexis"><i
+                            class="icon-linkedin-sign icon-large"></i>linkedin
+                    </a></li>
+                    <li class="list-group-item"><a href="https://bitbucket.org/TrashZen"><i
+                            class="icon-bitbucket-sign icon-large"></i>bitbucket
+                    </a></li>
+
+
+
+            <li class="list-group-item"><a href="http://localhost:8888/en/tags.html"><h4><i class="icon-tags icon-large"></i>Tags</h4></a></li>
+                <li class="list-group-item tag-4">
+                    <a href="http://localhost:8888/en/tag/c.html">
+                        C++
+                    </a>
+                </li>
+                <li class="list-group-item tag-4">
+                    <a href="http://localhost:8888/en/tag/image-processing.html">
+                        Image processing
+                    </a>
+                </li>
+        </ul>
+    </section>
+</aside>        </div>
+    </div>
+</div>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://localhost:8888/en/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://localhost:8888/en/theme/js/respond.min.js"></script>
+</body>
+</html>
