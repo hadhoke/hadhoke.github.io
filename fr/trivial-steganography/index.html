@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Trivial steganography</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph tags -->
+
+            <meta property="og:type" content="article"/>
+            <meta property="og:title" content="Trivial steganography"/>
+            <meta property="og:url" content="http://defundefined.com/fr/trivial-steganography/"/>
+            <meta property="og:description" content="La stéganographie est l'art de dissimuler de l'information dans un document. L'objectif est qu'une personne qui voit le document ne se doute pas qu'une information y est dissimulée. Tout l'enjeu réside dans le fait que même en connaissant la méthode de dissimulation, une personne récupérant l'image ne doit pas pouvoir déterminer si une information s'y cache ou non. Cependant dans un souci de simplicité nous nous limiterons à présenter un schéma pour lequel une personne ne peut distinguer à l'oeil nu si un document a été stéganographiée."/>
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://defundefined.com/fr/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://defundefined.com/fr/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://defundefined.com/fr/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://defundefined.com/fr/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://defundefined.com/fr/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-46633219-1', 'defundefined.com');
+        ga('send', 'pageview');
+     </script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://defundefined.com/fr" class="navbar-brand"><code>#define UNDEFINED</code></a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li><a href="http://defundefined.com/fr/pages/about.html">À propos</a></li>
+                        <li class="active">
+                            <a href="http://defundefined.com/fr/category/traitement-dimage.html">Traitement d'image</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://defundefined.com/fr" style="padding-right: 2px">[Français]</a></li>
+                <li><a style="padding-right: 2px; padding-left: 2px;">-</a></li>
+                <li><a href="http://defundefined.com/en" style="padding-left: 2px"></i>English</a></li>
+                <li><a href="http://defundefined.com/fr/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</nav>
+<!-- /.navbar -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://defundefined.com/fr/trivial-steganography/"
+                       rel="bookmark"
+                       title="Permalink to Trivial steganography">
+                        Trivial steganography
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="icon-calendar"></i>Dim 22 décembre 2013
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://defundefined.com/fr/tag/traitement-dimage.html">Traitement d'image</a>
+        /
+	<a href="http://defundefined.com/fr/tag/c.html">C++</a>
+        /
+	<a href="http://defundefined.com/fr/tag/steganographie.html">Steganographie</a>
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>La <a href="http://fr.wikipedia.org/wiki/Stéganographie">stéganographie</a> est l'art de dissimuler de l'information dans un document. L'objectif est qu'une personne qui voit le document ne se doute pas qu'une information y est dissimulée.</p>
+<p>Tout l'enjeu réside dans le fait que même en connaissant la méthode de dissimulation, une personne récupérant l'image ne doit pas pouvoir déterminer si une information s'y cache ou non. Cependant dans un souci de simplicité nous nous limiterons à présenter un schéma pour lequel une personne ne peut distinguer à l'oeil nu si un document a été stéganographiée.</p>
+<p>Nous pouvons stocker n'importe quel type d'information tel qu'un texte, un copyright, un son ou encore une image dans un document qu'il soit textuel, sonore, ou qu'il s'agisse d'une image. </p>
+<p>Un schéma de stéganographie est composé de deux algorithmes : </p>
+<ul>
+<li>Dissimulation</li>
+<li>Extraction</li>
+</ul>
+<p>L'algorithme de dissimulation prend en paramètre un document original et le document à dissimuler, et va générer un document stéganographié. L'algorithme d'extraction va quant à lui prendre en paramètre un document stéganographié et va retourner le document dissimulé une fois extrait.</p>
+<p>Dans cet article nous allons voir comment dissimuler une image dans une autre, en utilisant un algorithme simple mais efficace. Il consiste à modifier les pixels d'une certaine manière. Nous verrons également comment extraire l'image dissimulée. </p>
+<p>Pour ce faire, nous allons dans un premier temps voir quelques rappels sur le binaire et ses opérateurs. Puis nous verrons un exemple d'utilisation de la bibliothèque <a href="http://cimg.sourceforge.net">CImg</a> qui permet de travailler sur des images. Ensuite nous décrirons les deux algorithmes du schéma de stéganographie : la dissimulation et l'extraction.</p>
+<p>Et pour finir nous vous donnerons quelques pistes pour aller plus loin dans la stéganographie.</p>
+<p>Lien du dépôt git implementant cette algorithme : <a href="https://bitbucket.org/TrashZen/trivial-steganography">https://bitbucket.org/TrashZen/trivial-steganography</a></p>
+<h2>Quelques rappels pour s'échauffer</h2>
+<h3>Le binaire</h3>
+<p>Nous allons tout d'abord voir quelques rappels sur le binaire qui seront essentiels par la suite.</p>
+<p>Le système binaire est un système de numération utilisant la base 2. On nomme couramment bit les chiffres binaires. Ceux-ci ne peuvent prendre que deux valeurs: 0 ou 1. Un ensemble de huit chiffres binaires est appelé un octet et peut stocker 2^8 (= 256) valeurs différentes soit de 0 à 255 inclus. </p>
+<p>Prenons un exemple, nous souhaitons convertir 1001 1011 en décimal.
+Chaque bit d'un octet correspond à une puissance de 2. Le premier bit (le plus à droite) représente 2^0 = 1, le deuxième 2^1 = 2, le troisième 2^2 = 4, le quatrième 2^3 = 8 et ainsi de suite. Il ne reste plus qu'à additionner les valeurs correspondantes aux bits à 1 pour récupérer le nombre en décimal.</p>
+<p>Voici notre nombre binaire écrit verticalement :</p>
+<div class="highlight"><pre><span class="mi">1</span> <span class="o">-&gt;</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">2</span><span class="o">^</span><span class="mi">7</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">128</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="mi">0</span> <span class="o">-&gt;</span> <span class="mi">0</span> <span class="o">*</span> <span class="mi">2</span><span class="o">^</span><span class="mi">6</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="mi">64</span>  <span class="o">=</span>   <span class="mi">0</span>
+<span class="mi">0</span> <span class="o">-&gt;</span> <span class="mi">0</span> <span class="o">*</span> <span class="mi">2</span><span class="o">^</span><span class="mi">5</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="mi">32</span>  <span class="o">=</span>   <span class="mi">0</span>
+<span class="mi">1</span> <span class="o">-&gt;</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">2</span><span class="o">^</span><span class="mi">4</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">16</span>  <span class="o">=</span>  <span class="mi">16</span>
+
+<span class="mi">1</span> <span class="o">-&gt;</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">2</span><span class="o">^</span><span class="mi">3</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">8</span>   <span class="o">=</span>   <span class="mi">8</span>
+<span class="mi">0</span> <span class="o">-&gt;</span> <span class="mi">0</span> <span class="o">*</span> <span class="mi">2</span><span class="o">^</span><span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="mi">4</span>   <span class="o">=</span>   <span class="mi">0</span>
+<span class="mi">1</span> <span class="o">-&gt;</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">2</span><span class="o">^</span><span class="mi">1</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">2</span>   <span class="o">=</span>   <span class="mi">2</span>
+<span class="mi">1</span> <span class="o">-&gt;</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">2</span><span class="o">^</span><span class="mi">0</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">1</span>   <span class="o">=</span>   <span class="mi">1</span>
+
+
+<span class="mi">128</span> <span class="o">+</span> <span class="mi">16</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">=</span> <span class="mi">155</span>
+</pre></div>
+
+
+<p>1001 1011 correspond donc à 155.</p>
+<p>Tous les bits d'un octet ont un poids, qui correspond à leur position dans l'octet. On appelle bits de poids fort les bits se trouvant à gauche de l'octet, car ils ont une forte influence sur la valeur de l'octet (128, 64 ...). A contrario les bits à droite sont appelés bits de poids faible car ils influent peu sur l'octet (1, 2, 4 ...).</p>
+<h3>Les opérateurs binaires</h3>
+<p>Nous allons maintenant revoir quelques opérations binaires, qui vont nous être très utiles pour la suite.</p>
+<p>En C++ il existe plusieurs types d'opérateurs, les plus classiques sont les opérateurs de calcul (+, -, *, /, %, ++, +=, ...), les opérateurs de comparaison (&lt;, &lt;=, !=, ...) et les opérateurs logiques (||, &amp;&amp;, !).</p>
+<p>Mais il existe également des opérateurs bit-à-bit :</p>
+<ul>
+<li>&amp; (ET binaire) : Retourne 1 si les deux bits de même poids sont à 1. Exemple (9 &amp; 12) renverra 8 car en binaire cela donne (1001 &amp; 1100 -&gt; 1000)</li>
+<li>| (OU binaire) : Retourne 1 si l'un ou l'autre des deux bits de même poids est à 1 (ou les deux). Exemple (9 | 12) renverra 13 car en binaire cela donne (1001 | 1100 -&gt; 1101)</li>
+<li>^ (OU-Exclusif) : Retourne 1 si les deux bits de même poids sont différents. Exemple (9 ^ 12) renverra 5 car en binaire cela donne (1001 ^ 1100 -&gt; 0101)</li>
+</ul>
+<p>Il existe aussi deux opérateurs de décalage de bits :</p>
+<ul>
+<li>&lt;&lt; (décalage à gauche) : Décale les bits vers la gauche et remplit les bits à droite par des 0 (multiplie par 2 à chaque décalage).
+             Exemple (6 &lt;&lt; 1) renverra 12 car on décale une fois 6 vers la gauche soit (0110 &lt;&lt; 1 -&gt; 1100)</li>
+<li>>> (décalage à droite) : Décale les bits vers la droite et remplit les bits à gauche par des 0 (divise par 2 à chaque décalage).
+             Exemple (6 &gt;&gt; 2) renverra 1 car on décale deux fois 6 vers la droite soit (0110 &gt;&gt; 2 -&gt; 0001)</li>
+</ul>
+<h3>Le traitement d'image</h3>
+<p>En informatique, une image est représentée par une matrice (un tableau à deux dimensions). Chaque cellule de la matrice correspond à un pixel et un pixel est composé de trois couleurs : le rouge, le vert et le bleu. Les couleurs sont des entiers, dans nos exemples les valeurs seront comprises entre 0 et 255.</p>
+<p>Par exemple le pixel ayant comme valeur (R, V, B) (255, 0, 0) sera rouge et le pixel (255, 255, 0) sera jaune.</p>
+<p>Nous utiliserons dans cette article la librairie C++ <a href="http://cimg.sourceforge.net">CImg</a> pour ouvrir, lire et modifier des images. </p>
+<p>Voici un exemple simple d'utilisation où nous allons juste inverser les couleurs d'une image. Le rouge sera remplacé par le vert, le vert par le bleu et le bleu par le rouge.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">// Création d&#39;un typedef afin d&#39;éviter de réécrire le type à chaque utilisation</span>
+<span class="c1">// Une ImageUchar est une image ou chaque couleur est codée sur 1 octet (unsigned char ou uint8_t)</span>
+<span class="k">typedef</span> <span class="n">cimg_library</span><span class="o">::</span><span class="n">CImg</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span> <span class="n">ImageUchar</span><span class="p">;</span>
+
+<span class="c1">// Chargement de l&#39;image</span>
+<span class="n">ImageUchar</span> <span class="nf">image</span><span class="p">(</span><span class="s">&quot;foo.bmp&quot;</span><span class="p">);</span>
+
+<span class="c1">// Double boucle sur la hauteur et la largeur de l&#39;image afin de parcourir tous ses pixels</span>
+<span class="c1">// Le pixel (0, 0) se trouve en haut à gauche de l&#39;image</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">height</span><span class="p">();</span> <span class="o">++</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Récupération des trois couleurs</span>
+        <span class="kt">uint8_t</span> <span class="n">rouge</span> <span class="o">=</span> <span class="n">image</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="kt">uint8_t</span> <span class="n">vert</span>  <span class="o">=</span> <span class="n">image</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="kt">uint8_t</span> <span class="n">bleu</span>  <span class="o">=</span> <span class="n">image</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+
+        <span class="c1">// Inversion des couleurs</span>
+        <span class="c1">// Le rouge (0) est remplacé par le vert</span>
+        <span class="n">image</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">vert</span><span class="p">;</span>
+        <span class="c1">// Le vert (1) est remplacé par le bleu</span>
+        <span class="n">image</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">bleu</span><span class="p">;</span>
+        <span class="c1">// Le bleu (2) est remplacé par le rouge</span>
+        <span class="n">image</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">rouge</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Affiche l&#39;image après l&#39;inversion des couleurs</span>
+<span class="n">image</span><span class="p">.</span><span class="n">display</span><span class="p">();</span>
+</pre></div>
+</td></tr></table>
+
+<p>On observe bien sur l'image résultat que les couleurs ont été inversées.</p>
+<p><img alt="Couleurs inversées" src="/images/trivial-steganography/inverse_couleurs.jpg" /></p>
+<h2>Stéganographie, les choses sérieuses commencent !</h2>
+<h3>La dissimulation</h3>
+<p>Il existe bien entendu plusieurs schémas de stéganographie. Nous allons ici voir un algorithme simple mais efficace permettant de dissimuler une image noir et blanc dans une image couleur de même taille.</p>
+<p>Cet algorithme (appelé LSB pour Least Significant Bit) consiste à modifier les bits de poids faible de chaque pixel. Cela a pour conséquence d'augmenter ou de diminuer légèrement les valeurs de rouge, vert et bleu. La couleur du pixel se trouve donc peu modifiée mais contient une partie de l'information que nous souhaitons dissimuler.</p>
+<p>Nous appellerons <code>im_rvb</code> l'image couleur, et <code>im_gris</code> l'image à dissimuler. Chaque pixel de <code>im_gris</code> sera dissimulé dans le pixel de <code>im_rvb</code> aux mêmes coordonnées.</p>
+<p>Pour chaque pixel, la première étape consiste à découper le pixel de <code>im_gris</code> (stocké sur un octet) en trois parties :</p>
+<ul>
+<li>Deux parties de trois bits</li>
+<li>Une partie de deux bits</li>
+</ul>
+<p>Car 3 + 3 + 2 = 8 bits soit un octet. Ensuite nous allons remplacer les trois bits de poids faible de la composante rouge de <code>im_rvb</code> par la première partie de <code>im_gris</code>. Puis nous remplaçons les deux bits de poids faible de la composante verte de <code>im_rvb</code> par la deuxième partie de <code>im_gris</code>. Et enfin nous remplacerons les trois bits de poids faible de la composante bleue de <code>im_rvb</code> par la troisième partie de <code>im_gris</code>.</p>
+<p>Voici un exemple concret : nous allons dissimuler un pixel gris (103) dans un pixel couleur (132, 43, 84). Nous commençons par convertir 103 en binaire: 0110 0111. Puis nous le découpons en trois parties.</p>
+<div class="highlight"><pre><span class="n">partie</span> <span class="mi">1</span> <span class="o">:</span> <span class="mo">011</span>
+<span class="n">partie</span> <span class="mi">2</span> <span class="o">:</span> <span class="mo">00</span>
+<span class="n">partie</span> <span class="mi">3</span> <span class="o">:</span> <span class="mi">111</span>
+</pre></div>
+
+
+<p>Ensuite nous convertissons les trois valeurs du pixel couleur en binaire.</p>
+<div class="highlight"><pre><span class="mi">132</span> <span class="o">-&gt;</span> <span class="mi">1000</span> <span class="mo">0100</span>
+<span class="mi">43</span>  <span class="o">-&gt;</span> <span class="mo">0010</span> <span class="mi">1011</span>
+<span class="mi">84</span>  <span class="o">-&gt;</span> <span class="mo">0101</span> <span class="mo">0100</span>
+</pre></div>
+
+
+<p>Nous retirons les bits de poids faible du pixel couleur.</p>
+<div class="highlight"><pre><span class="mi">1000</span> <span class="mf">0.</span><span class="p">..</span>
+<span class="mo">0010</span> <span class="mf">10.</span><span class="p">.</span>
+<span class="mo">0101</span> <span class="mf">0.</span><span class="p">..</span>
+</pre></div>
+
+
+<p>Et nous les remplaçons par les trois parties extraites précédemment.</p>
+<div class="highlight"><pre><span class="m">1000</span> <span class="m">0</span><span class="kc">...</span> <span class="o">&lt;-</span> <span class="m">011</span>
+<span class="m">1000</span> <span class="m">0011</span><span class="p">,</span> qui correspond à <span class="m">131</span>
+
+<span class="m">0010</span> <span class="m">10</span>.. <span class="o">&lt;-</span> <span class="m">00</span>
+<span class="m">0010</span> <span class="m">1000</span><span class="p">,</span> qui correspond à <span class="m">40</span>
+
+<span class="m">0101</span> <span class="m">0</span><span class="kc">...</span> <span class="o">&lt;-</span> <span class="m">111</span>
+<span class="m">0101</span> <span class="m">0111</span><span class="p">,</span> qui correspond à <span class="m">87</span>
+</pre></div>
+
+
+<p>Le pixel (132, 43, 84) devient donc (131, 40, 87). On voit que la différence entre les deux est faible et ne sera pas visible à l'oeil nu.</p>
+<p>Voici une application en C++ :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88</pre></div></td><td class="code"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Dissimuler une image en niveau de gris (image_to_hide) dans une image couleur (image_couleur).</span>
+<span class="cm"> *</span>
+<span class="cm"> * Soit un pixel P de image_couleur composé de trois octets,</span>
+<span class="cm"> * R pour le rouge, V pour le vert, B pour le bleu</span>
+<span class="cm"> *   rouge = R0 R1 R2 R3 R4 R5 R6 R7 -&gt; 8 bits contenant le niveau de rouge</span>
+<span class="cm"> *   vert  = V0 V1 V2 V3 V4 V5 V6 V7 -&gt; 8 bits contenant le niveau de vert</span>
+<span class="cm"> *   bleu  = B0 B1 B2 B3 B4 B5 B6 B7 -&gt; 8 bits contenant le niveau de bleu</span>
+<span class="cm"> * </span>
+<span class="cm"> * et un pixel Pg de image_to_hide composé d&#39;un octet contenant la nuance de gris</span>
+<span class="cm"> *   gris  = G0 G1 G2 G3 G4 G5 G6 G7 -&gt; 8 bits contenant le niveau de gris</span>
+<span class="cm"> *</span>
+<span class="cm"> * alors nous allons remplacer certains bits de P de la façon suivante pour dissimuler Pg dans P :</span>
+<span class="cm"> *   rouge = R0 R1 R2 R3 R4 G0 G1 G2</span>
+<span class="cm"> *   vert  = V0 V1 V2 V3 V4 V5 G3 G4</span>
+<span class="cm"> *   bleu  = B0 B1 B2 B3 B4 G5 G6 G7</span>
+<span class="cm"> *</span>
+<span class="cm"> * @param image_to_hide [in]      Image en niveau de gris à dissimuler</span>
+<span class="cm"> * @param image_couleur [in, out] Image original</span>
+<span class="cm"> */</span>
+ <span class="kt">void</span> <span class="nf">hide</span><span class="p">(</span><span class="k">const</span> <span class="n">ImageUchar</span> <span class="o">&amp;</span><span class="n">image_to_hide</span><span class="p">,</span> <span class="n">ImageUchar</span> <span class="o">&amp;</span><span class="n">image_couleur</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// Double boucle (une pour la hauteur, une pour la largeur) permetant de parcourir tous les</span>
+  <span class="c1">// pixels de image_couleur</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">image_couleur</span><span class="p">.</span><span class="n">height</span><span class="p">();</span> <span class="o">++</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">image_couleur</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+
+      <span class="c1">// La première étape consiste à découper le pixel de image_to_hide</span>
+      <span class="c1">// (contenu sur un octet car c&#39;est une image en noir et blanc)</span>
+      <span class="c1">// en trois parties : la première doit faire trois bits, la deuxième deux bits et la</span>
+      <span class="c1">// troisième trois bits.</span>
+      <span class="c1">// Soit 3 + 2 + 3 = 8 bits = 1 octet</span>
+
+      <span class="c1">// Initialisation des trois variables contenant chacune une partie du pixel</span>
+      <span class="kt">uint8_t</span> <span class="n">part_1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="kt">uint8_t</span> <span class="n">part_2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="kt">uint8_t</span> <span class="n">part_3</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+      <span class="c1">// Vérifie que image_to_hide contient un pixel aux coordonnées (x, y)</span>
+      <span class="c1">// Cela évite d&#39;accéder à un pixel qui se trouve en dehors de l&#39;image</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">image_to_hide</span><span class="p">.</span><span class="n">containsXYZC</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span> <span class="p">{</span>
+
+        <span class="c1">// image_to_hide(x, y) -&gt; valeur du pixel au coordonnées (x, y) </span>
+        <span class="c1">// contenu sur un octet (8 bits)</span>
+
+        <span class="c1">// Récupération des trois premiers bits de l&#39;octet dans part_1</span>
+        <span class="c1">//</span>
+        <span class="c1">// image_to_hide(x, y)              -&gt; xxxx xxxx (x vaut 0 ou 1)</span>
+        <span class="c1">// image_to_hide(x, y) &gt;&gt; 5         -&gt; 0000 0xxx</span>
+        <span class="n">part_1</span> <span class="o">=</span> <span class="n">image_to_hide</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">5</span><span class="p">;</span>
+
+        <span class="c1">// Récupération des deux bits suivants dans part_2</span>
+        <span class="c1">//</span>
+        <span class="c1">// image_to_hide(x, y)              -&gt; xxxx xxxx (x vaut 0 ou 1)</span>
+        <span class="c1">// image_to_hide(x, y) &amp; 24         -&gt; 000x x000</span>
+        <span class="c1">// (image_to_hide(x, y) &amp; 24) &gt;&gt; 3  -&gt; 0000 00xx</span>
+        <span class="n">part_2</span> <span class="o">=</span> <span class="p">(</span><span class="n">image_to_hide</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="mi">24</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">3</span><span class="p">;</span>
+
+        <span class="c1">// Récupération des trois derniers bits dans part_3</span>
+        <span class="c1">//</span>
+        <span class="c1">// image_to_hide(x, y)              -&gt; xxxx xxxx (x vaut 0 ou 1)</span>
+        <span class="c1">// image_to_hide(x, y) &amp; 24         -&gt; 0000 0xxx</span>
+        <span class="n">part_3</span> <span class="o">=</span>  <span class="n">image_to_hide</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">&amp;</span>   <span class="mi">7</span><span class="p">;</span>
+      <span class="p">}</span>
+
+
+      <span class="c1">// Remplissage des trois derniers bits de l&#39;octet contenant le rouge</span>
+      <span class="c1">// à 0 (xxxx x000) (x vaut 0 ou 1)</span>
+      <span class="n">image_couleur</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;=</span> <span class="mi">248</span><span class="p">;</span> <span class="c1">// rouge &amp; 1111 1000</span>
+
+      <span class="c1">// Remplissage des deux derniers bits de l&#39;octet contenant le vert à 0 (xxxx xx00)</span>
+      <span class="n">image_couleur</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;=</span> <span class="mi">252</span><span class="p">;</span> <span class="c1">// vert &amp; 1111 1100</span>
+
+      <span class="c1">// Remplissage des trois derniers bits de l&#39;octet contenant le bleu à 0 (xxxx x000)</span>
+      <span class="n">image_couleur</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;=</span> <span class="mi">248</span><span class="p">;</span> <span class="c1">// bleu &amp; 1111 1000</span>
+
+      <span class="c1">// Il ne reste plus qu&#39;à insérer part_1, part_2 et part_3 dans image_couleur, </span>
+      <span class="c1">// une dans chaque composante (couleur).</span>
+      <span class="c1">// L&#39;astuce pour que la modification de l&#39;image ne soit pas visible (ou le moins possible) est</span>
+      <span class="c1">// de modifier les bits de poids faible, ceux les plus à droite.</span>
+      <span class="c1">// Cela permet de faire varier la valeur de chaque couleur assez faiblement </span>
+      <span class="c1">// pour ne pas être visible à l&#39;oeil nu.</span>
+      <span class="n">image_couleur</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">image_couleur</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="n">part_1</span><span class="p">;</span> <span class="c1">// xxxx x000 | 0000 0xxx</span>
+      <span class="n">image_couleur</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">image_couleur</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="n">part_2</span><span class="p">;</span> <span class="c1">// xxxx xx00 | 0000 00xx</span>
+      <span class="n">image_couleur</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">image_couleur</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">|</span> <span class="n">part_3</span><span class="p">;</span> <span class="c1">// xxxx x000 | 0000 0xxx</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>Et voilà le résultat en image de cet algorithme.</p>
+<p><img alt="Resumé" src="/images/trivial-steganography/resume.jpg" /></p>
+<p>Si vous avez bien suivi, vous avez dû remarquer qu'on ne modifie que deux bits de la composante verte alors que le bleu et le rouge ont chacun trois bits modifiés. Logique car nous n'avons que huit bits à dissimuler.
+Peut-être que certains d'entre vous se sont demandés pourquoi c'est le vert qui reçoit la plus faible modification et non le rouge ou le bleu ?</p>
+<p>La réponse se trouve dans nos yeux ! Et oui, l'oeil humain est plus sensible au vert qu'au rouge ou au bleu. Il est donc préférable de modifier plus faiblement le vert que les autres composantes afin que la dissimulation de l'image soit la plus discrète possible.</p>
+<h3>L'extraction</h3>
+<p>Nous avons vu comment dissimuler une image noir et blanc dans une autre image. Vous pouvez maintenant partager cette image sans que personne ne voit la deuxième image qui s'y cache !</p>
+<p>Une fois que votre correspondant a récupéré cette image, il doit en extraire l'image contenue, pour cela il suffit d'appliquer l'algorithme dans l'autre sens.</p>
+<p>Il faut récupérer les trois derniers bits de la composante rouge, les deux derniers de la composante verte et les trois derniers de la composante bleue. Une fois les trois parties récupérées, il ne reste plus qu'à les mettre bout-à-bout pour retrouver le pixel noir et blanc de l'image dissimulée.</p>
+<p>Voici l'application en C++.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Extraire l&#39;image en niveau de gris dissimulée dans une image</span>
+<span class="cm"> * Il faut appliquer l&#39;algorithme inverse pour retrouver l&#39;image cachée.</span>
+<span class="cm"> *</span>
+<span class="cm"> * @param image           [in]  Image stéganographiée</span>
+<span class="cm"> * @param image_extracted [out] Image en niveau de gris</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">extract</span><span class="p">(</span><span class="k">const</span> <span class="n">ImageUchar</span> <span class="o">&amp;</span><span class="n">image</span><span class="p">,</span> <span class="n">ImageUchar</span> <span class="o">&amp;</span><span class="n">image_extracted</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">height</span><span class="p">();</span> <span class="o">++</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Récupération des trois derniers bits contenus dans le rouge</span>
+      <span class="kt">uint8_t</span> <span class="n">part_1</span> <span class="o">=</span> <span class="p">(</span><span class="n">image</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//0000 0111</span>
+
+      <span class="c1">// Récupération des deux derniers bits contenus dans le vert</span>
+      <span class="kt">uint8_t</span> <span class="n">part_2</span> <span class="o">=</span> <span class="p">(</span><span class="n">image</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//0000 0011</span>
+
+      <span class="c1">// Récupération des trois derniers bits contenus dans le bleu</span>
+      <span class="kt">uint8_t</span> <span class="n">part_3</span> <span class="o">=</span>  <span class="n">image</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">7</span><span class="p">;</span>       <span class="c1">//0000 0111</span>
+
+      <span class="c1">// Fusion de part_1, part_2 et part_3 afin de recomposer le niveau de gris original</span>
+      <span class="n">image_extracted</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">part_1</span> <span class="o">|</span> <span class="n">part_2</span><span class="p">)</span> <span class="o">|</span> <span class="n">part_3</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>Résultat de cet algorithme sur l'image précédemment obtenue. Nous obtenons bien l'image noir et blanc préalablement dissimulée.</p>
+<p><img alt="Résumé" src="/images/trivial-steganography/resume_extraction.jpg" /></p>
+<h2>Aller plus loin</h2>
+<p>D'autres techniques similaires existent. Par exemple nous pouvons changer l'espace de colorisation <a href="http://fr.wikipedia.org/wiki/Rouge_vert_bleu">RVB</a> (Rouge Vert Bleu) en <a href="http://fr.wikipedia.org/wiki/Teinte_Saturation_Luminosité">TSL</a> (Teinte Saturation Luminance) et ainsi modifier la teinte, la saturation et la luminance plutôt que le niveau de rouge, de vert et de bleu.</p>
+<p>L'inconvénient de ces algorithmes est qu'ils ne permettent aucune dégradation de l'image. Le simple fait de compresser l'image en JPEG est susceptible de détruire l'image dissimulée. Cela est dû au format JPEG en lui-même car il est basé sur un algorithme de compression avec perte. Les bits de poids faible vont être modifiés et l'image dissimulée détruite. Le redimensionnement de l'image aura le même effet.</p>
+<p>Pour pallier à ces problèmes, d'autres algorithmes existent, basés sur le domaine fréquentiel. Un algorithme célèbre consiste à appliquer une transformation de Fourier sur notre image, modifier ensuite les fréquences moyennes et effectuer une transformation inverse. </p>
+<p>Pourquoi modifier les fréquences moyennes et pas les autres ?</p>
+<p>Car si nous modifions les fréquences faibles, la première compression venu va détruire l'image dissimulée. Et si nous modifions les fréquences trop hautes, l'image originale va recevoir trop de modifications et la stéganographie sera visible. Voici un article détaillant la <a href="http://www.tsi.telecom-paristech.fr/pages/enseignement/ressources/beti/ondelettes-2g/francais/Fourier/TF2Dimage.htm">transformée de Fourier</a> pour approfondir le sujet.</p>
+<p>Si le traitement d'image vous intéresse voici un <a href="http://images.math.cnrs.fr/Le-traitement-numerique-des-images.html">article intéressant</a> reprenant les bases nécessaires pour commencer à développer ses propres algorithmes.</p>
+<p>Alexis</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-lg-3 well well-sm" id="sidebar">
+<aside>
+    <section>
+        <ul class="list-group list-group-flush">
+                <li class="list-group-item"><h4><i class="icon-home icon-large"></i>Social</h4></li>
+                    <li class="list-group-item"><a href="http://www.linkedin.com/in/francoisalexis"><i
+                            class="icon-linkedin-sign icon-large"></i>linkedin
+                    </a></li>
+                    <li class="list-group-item"><a href="https://bitbucket.org/TrashZen"><i
+                            class="icon-bitbucket-sign icon-large"></i>bitbucket
+                    </a></li>
+
+
+
+            <li class="list-group-item"><a href="http://defundefined.com/fr/tags.html"><h4><i class="icon-tags icon-large"></i>Tags</h4></a></li>
+                <li class="list-group-item tag-4">
+                    <a href="http://defundefined.com/fr/tag/steganographie.html">
+                        Steganographie
+                    </a>
+                </li>
+                <li class="list-group-item tag-4">
+                    <a href="http://defundefined.com/fr/tag/traitement-dimage.html">
+                        Traitement d'image
+                    </a>
+                </li>
+                <li class="list-group-item tag-4">
+                    <a href="http://defundefined.com/fr/tag/c.html">
+                        C++
+                    </a>
+                </li>
+        </ul>
+    </section>
+</aside>        </div>
+    </div>
+</div>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://defundefined.com/fr/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://defundefined.com/fr/theme/js/respond.min.js"></script>
+</body>
+</html>
