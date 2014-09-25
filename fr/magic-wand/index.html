@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Une baguette oui, mais magique !</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph tags -->
+
+            <meta property="og:type" content="article"/>
+            <meta property="og:title" content="Une baguette oui, mais magique !"/>
+            <meta property="og:url" content="http://defundefined.com/fr/magic-wand/"/>
+            <meta property="og:description" content="Qu'est-ce qu'une baguette magique ? Facile, c'est comme dans Harry Potter ... Oui, mais pas que ! En retouche d'image, une baguette magique permet de détourer un objet. C'est grâce à cet outil que tu peux détourer la fille de tes rêves sur une photo et la copier-coller à côté de toi sur ta photo de profil. Il y a bien sûr d'autres utilités, dans le milieu médical par exemple."/>
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://defundefined.com/fr/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://defundefined.com/fr/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://defundefined.com/fr/theme/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="http://defundefined.com/fr/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://defundefined.com/fr/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-46633219-1', 'defundefined.com');
+        ga('send', 'pageview');
+     </script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://defundefined.com/fr" class="navbar-brand"><code>#define UNDEFINED</code></a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li><a href="http://defundefined.com/fr/pages/about.html">À propos</a></li>
+                        <li class="active">
+                            <a href="http://defundefined.com/fr/category/traitement-dimage.html">Traitement d'image</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://defundefined.com/fr" style="padding-right: 2px">[Français]</a></li>
+                <li><a style="padding-right: 2px; padding-left: 2px;">-</a></li>
+                <li><a href="http://defundefined.com/en" style="padding-left: 2px"></i>English</a></li>
+                <li><a href="http://defundefined.com/fr/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</nav>
+<!-- /.navbar -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://defundefined.com/fr/magic-wand/"
+                       rel="bookmark"
+                       title="Permalink to Une baguette oui, mais magique !">
+                        Une baguette oui, mais magique !
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="icon-calendar"></i>Jeu 25 septembre 2014
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://defundefined.com/fr/tag/traitement-dimage.html">Traitement d'image</a>
+        /
+	<a href="http://defundefined.com/fr/tag/c.html">C++</a>
+        /
+	<a href="http://defundefined.com/fr/tag/baguette-magique.html">Baguette magique</a>
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>Qu'est-ce qu'une baguette magique ? Facile, c'est comme dans Harry Potter ... Oui, mais pas que ! En retouche d'image, une baguette magique permet de détourer un objet. C'est grâce à cet outil que tu peux détourer la fille de tes rêves sur une photo et la copier-coller à côté de toi sur ta photo de profil. Il y a bien sûr d'autres utilités, dans le milieu médical par exemple.</p>
+<p>Il y a plusieurs algorithmes différent de baguette magique. Certains étant plus efficaces dans des cas précis, d'autres plus rapides, etc. En voici quelques-uns : les contours actifs, la propagation à partir d'un trait, deux traits ou encore d'un point. Nous allons étudier dans cet article la propagation à partir d'un point, la plus simple. Il fonctionne très bien sur des objets unicolores, qui sont bien distincts du fond de l'image.</p>
+<h1>Une histoire de propagation.</h1>
+<p>Nous allons, dans cet article, tenter de détourer des pièces de lego à partir de cette image.</p>
+<p><img alt="Briques de lego" src="/images/magic-wand/lego.jpg" /></p>
+<h2>Un point, c'est tout</h2>
+<p>Cet algorithme a besoin de deux entrées utilisateurs : un point de départ et un seuil. L'utilisateur commence donc par indiquer un point qui doit se trouver à l'intérieur de l'objet à détourer. L'objectif est de propager ce point pour qu'il recouvre entièrement l'objet désiré. Le seuil va quant à lui permettre d'ajuster le détourage.</p>
+<p><img alt="Premier point placé sur la brique jaune" src="/images/magic-wand/lego-first-point.png" /></p>
+<p>Ce point sera notre point de départ. Nous allons commencer par itérer sur tous ses voisins 8-connex (ceux qui sont reliés par un sommet ou une arête). Cela fait donc huit voisins à traiter. Pour chacun d'eux, nous allons calculer une distance. Cette distance représente la différence de couleur entre le pixel référant et son voisin.</p>
+<p>Petit rappel : un pixel est composé de trois composantes : rouge, vert, bleu. Donc calculer la distance entre deux pixels revient à calculer la norme entre les deux vecteurs.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">bool</span> <span class="nf">is_valid_pixel</span><span class="p">(</span><span class="k">const</span> <span class="n">Point2D</span><span class="o">&amp;</span> <span class="n">p</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">ImageUchar</span><span class="o">&amp;</span> <span class="n">img</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">ImageUchar</span><span class="o">&amp;</span> <span class="n">mask</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">Pixel</span><span class="o">&amp;</span> <span class="n">pixel_ref</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">threshold</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">img</span><span class="p">.</span><span class="n">containsXYZC</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">||</span> <span class="n">mask</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="n">UINT8_MAX</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">int</span> <span class="n">distance</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">c</span> <span class="o">&lt;</span> <span class="n">img</span><span class="p">.</span><span class="n">spectrum</span><span class="p">();</span> <span class="o">++</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">diff</span> <span class="o">=</span> <span class="n">pixel_ref</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">-</span> <span class="n">img</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+    <span class="n">distance</span> <span class="o">+=</span> <span class="n">diff</span> <span class="o">*</span> <span class="n">diff</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">distance</span> <span class="o">&gt;</span> <span class="n">threshold</span> <span class="o">*</span> <span class="n">threshold</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nb">true</span><span class="p">;</span> 
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>On remarque que l'on utilise le carré du seuil (threshold * threshold) pour la comparaison, en effet cela évite de calculer la racine carrée de <code>distance</code>, qui est très coûteuse en calcul.</p>
+<p>Si cette distance est inférieure au seuil, alors on va écrire un pixel blanc sur notre image de masque aux mêmes coordonnées. Et aussi ajouter les coordonnées du pixel dans un vecteur contenant tous les futurs points à traiter.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">is_valid_pixel</span><span class="p">(</span><span class="n">neighbor</span><span class="p">,</span> <span class="n">img_src</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pixel_ref</span><span class="p">,</span> <span class="n">threshold</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">queue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">neighbor</span><span class="p">);</span>
+  <span class="n">mask</span><span class="p">(</span><span class="n">neighbor</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">UINT8_MAX</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>Une fois les huit pixels traités, nous allons prendre le premier pixel du vecteur des pixels à traiter. Et utiliser ce pixel comme nouveau point de référence et répéter l'opération. C'est-à-dire analyser ses huit voisins. Cela va créer une propagation sur l'image autour du premier point choisi par l'utilisateur.</p>
+<p><img alt="Propagation 1" src="/images/magic-wand/propagation.png" /></p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">void</span> <span class="nf">propagate_point</span><span class="p">(</span><span class="k">const</span> <span class="n">ImageUchar</span><span class="o">&amp;</span> <span class="n">img_src</span><span class="p">,</span> <span class="n">ImageUchar</span><span class="o">&amp;</span> <span class="n">mask</span><span class="p">,</span>
+                     <span class="k">const</span> <span class="n">Point2D</span><span class="o">&amp;</span> <span class="n">point</span><span class="p">,</span>      <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">threshold</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">mask</span> <span class="o">=</span> <span class="kt">uint8_t</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+  <span class="n">Pixel</span> <span class="n">pixel_ref</span><span class="p">(</span><span class="n">img_src</span><span class="p">.</span><span class="n">spectrum</span><span class="p">());</span>
+  <span class="n">neighbor_pixel_average</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">img_src</span><span class="p">,</span> <span class="n">pixel_ref</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">queue</span><span class="o">&lt;</span><span class="n">Point2D</span><span class="o">&gt;</span> <span class="n">queue</span><span class="p">;</span>
+  <span class="n">queue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">point</span><span class="p">);</span>
+
+  <span class="k">while</span> <span class="p">(</span><span class="o">!</span> <span class="n">queue</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">Point2D</span> <span class="n">p_current</span> <span class="o">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+    <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+    <span class="n">get_pixel_value</span><span class="p">(</span><span class="n">img_src</span><span class="p">,</span> <span class="n">p_current</span><span class="p">,</span> <span class="n">pixel_ref</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">9</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">const</span> <span class="n">Point2D</span> <span class="n">neighbor</span> <span class="p">{</span> <span class="n">p_current</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx9</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                               <span class="n">p_current</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">dy9</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">};</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">is_valid_pixel</span><span class="p">(</span><span class="n">neighbor</span><span class="p">,</span> <span class="n">img_src</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pixel_ref</span><span class="p">,</span> <span class="n">threshold</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">queue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">neighbor</span><span class="p">);</span>
+        <span class="n">mask</span><span class="p">(</span><span class="n">neighbor</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">UINT8_MAX</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span> 
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>Lorsque cette propagation va arriver à un endroit avec de fort contraste comme le bord d'un objet, alors la différence de couleur entre deux pixels sera supérieure au seuil, et la propagation va s'arrêter dans cette direction.</p>
+<p><img alt="Limite de la propagation" src="/images/magic-wand/propagation-5.png" /></p>
+<p>Une fois que la propagation est terminée, nous obtenons un masque de la forme de l'objet à détourer, mais de petites imperfections peuvent rester visibles, comme ici.</p>
+<p><img alt="Détourage avec des imperfections" src="/images/magic-wand/imperfections.png" /></p>
+<p>Pour les corriger ce type d'imperfection, nous appliquons une opération de <a href="/images/magic-wand/imperfections.png">morphologie mathématique</a> sur notre masque : la dilatation. Cela a pour effet de combler les trous.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * dilatation 8-connexe</span>
+<span class="cm"> * Each pixel is set with the maximum value of his height neighbors and himself</span>
+<span class="cm"> *</span>
+<span class="cm"> * @param image [in, out] Grayscale image to dilate</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">dilatation</span><span class="p">(</span><span class="n">ImageUchar</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">ImageUchar</span> <span class="n">dilated_image</span><span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">width</span><span class="p">(),</span> <span class="n">image</span><span class="p">.</span><span class="n">height</span><span class="p">());</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">height</span><span class="p">();</span> <span class="o">++</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">image</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kt">uint8_t</span> <span class="n">max</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">9</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Loop on neighboring</span>
+        <span class="kt">int</span> <span class="n">x_tmp</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx9</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+        <span class="kt">int</span> <span class="n">y_tmp</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy9</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">containsXYZC</span><span class="p">(</span><span class="n">x_tmp</span><span class="p">,</span> <span class="n">y_tmp</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">image</span><span class="p">(</span><span class="n">x_tmp</span><span class="p">,</span> <span class="n">y_tmp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">max</span> <span class="o">=</span> <span class="n">image</span><span class="p">(</span><span class="n">x_tmp</span><span class="p">,</span> <span class="n">y_tmp</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+      <span class="n">dilated_image</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">max</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">image</span> <span class="o">=</span> <span class="n">dilated_image</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p><img alt="Après la dilatation" src="/images/magic-wand/after-dilatation.png" /></p>
+<h2>Garder le contour</h2>
+<p>Maintenant que nous avons un masque, il nous faut récupérer uniquement le contour de ce masque. Pour cela, il suffit de parser les pixels de notre masque, et de vérifier s'il a au moins un voisin ne faisant pas partie du masque. Si c'est le cas, alors ce pixel est sur un bord du masque. Une fois tous les pixels du contour récupéré, nous les fusionnons sur notre image principale. Cela a pour effet de tracer un trait autour de l'objet à détourer.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">// Extract border from mask</span>
+<span class="kt">void</span> <span class="nf">contour</span><span class="p">(</span><span class="n">ImageUchar</span><span class="o">&amp;</span> <span class="n">img</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">ImageUchar</span> <span class="n">img_tmp</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="n">width</span><span class="p">(),</span> <span class="n">img</span><span class="p">.</span><span class="n">height</span><span class="p">());</span>
+  <span class="n">img_tmp</span> <span class="o">=</span> <span class="kt">uint8_t</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">img</span><span class="p">.</span><span class="n">height</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">img</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">img</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="n">UINT8_MAX</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">neighbor_sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">9</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">neighbor_sum</span> <span class="o">+=</span> <span class="n">img</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx9</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy9</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">neighbor_sum</span> <span class="o">!=</span> <span class="n">UINT8_MAX</span><span class="o">*</span><span class="mi">9</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">img_tmp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">UINT8_MAX</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">img</span> <span class="o">=</span> <span class="n">img_tmp</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Merge mask with original image</span>
+<span class="kt">void</span> <span class="nf">merge_mask</span><span class="p">(</span><span class="n">ImageUchar</span><span class="o">&amp;</span> <span class="n">img</span><span class="p">,</span> <span class="k">const</span> <span class="n">ImageUchar</span><span class="o">&amp;</span> <span class="n">mask</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">img</span><span class="p">.</span><span class="n">height</span><span class="p">();</span> <span class="o">++</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">img</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">mask</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="n">UINT8_MAX</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">c</span> <span class="o">&lt;</span> <span class="n">img</span><span class="p">.</span><span class="n">spectrum</span><span class="p">();</span> <span class="o">++</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">img</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p><img alt="Contour de la brique de lego" src="/images/magic-wand/contour.png" /></p>
+<h2>Un lissage s'il vous plait !</h2>
+<p>Il est possible d'ameliorer notre baguette magique avec un peu de magie ! Il est par exemple recommandé de lisser notre image avant le traitement. Un filtre gaussien convient parfaitement dans notre cas.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">void</span> <span class="nf">gauss_filtering</span><span class="p">(</span><span class="n">ImageUchar</span><span class="o">&amp;</span> <span class="n">img_src</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">halfsize</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">const</span> <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">halfsize</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">se</span><span class="p">[</span><span class="n">size</span><span class="p">];</span> <span class="c1">//structuring element</span>
+
+  <span class="n">ImageUchar</span> <span class="n">img_tmp</span><span class="p">(</span><span class="n">img_src</span><span class="p">.</span><span class="n">width</span><span class="p">(),</span> <span class="n">img_src</span><span class="p">.</span><span class="n">height</span><span class="p">());</span>
+
+  <span class="k">const</span> <span class="kt">float</span> <span class="n">sigma</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)(</span><span class="n">halfsize</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">;</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="n">halfsize</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">halfsize</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">se</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">halfsize</span><span class="p">]</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(((</span><span class="n">i</span> <span class="o">*</span> <span class="n">i</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">)))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">img_src</span><span class="p">.</span><span class="n">height</span><span class="p">();</span> <span class="o">++</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">img_src</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kt">float</span> <span class="n">sum</span>     <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="kt">float</span> <span class="n">divisor</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">img_src</span><span class="p">.</span><span class="n">containsXYZC</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">halfsize</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span> <span class="p">{</span>
+          <span class="n">sum</span>     <span class="o">+=</span> <span class="n">img_src</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">halfsize</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">se</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+          <span class="n">divisor</span> <span class="o">+=</span> <span class="n">se</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+      <span class="n">img_tmp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">/</span> <span class="n">divisor</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">img_src</span><span class="p">.</span><span class="n">height</span><span class="p">();</span> <span class="o">++</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">img_src</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kt">float</span> <span class="n">sum</span>     <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="kt">float</span> <span class="n">divisor</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">img_src</span><span class="p">.</span><span class="n">containsXYZC</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">halfsize</span> <span class="o">+</span> <span class="n">i</span><span class="p">))</span> <span class="p">{</span>
+          <span class="n">sum</span>     <span class="o">+=</span> <span class="n">img_tmp</span><span class="p">(</span><span class="n">x</span> <span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">halfsize</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">se</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+          <span class="n">divisor</span> <span class="o">+=</span> <span class="n">se</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+      <span class="n">img_src</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">/</span> <span class="n">divisor</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<h1>Un trait : sécurité</h1>
+<p>Afin d'avoir de meilleurs résultats, il est possible de remplacer le point de départ choisi par l'utilisateur par une ligne. De ce fait, on ne va plus comparer un pixel à un autre, mais un pixel avec l'ensemble des points composant la ligne. Il est donc possible avec cet algorithme de détourer des objets contenant différentes couleurs ou de fortes ombres.</p>
+<p>Seulement pour toi, j'ai implémenté cet algorithme <a href="https://bitbucket.org/Hadhoke/magic-wand">ici</a>.</p>
+<h1>Toujours plus</h1>
+<p>D'autres algorithmes plus spécifiques existent avec de très bons résultats si on connaît la nature de l'image à traiter et de l'objet à détourer.</p>
+<p>Alexis</p>
+            </div>
+            <!-- /.entry-content -->
+    <hr />
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'defundefined'; // required: replace example with your forum shortname
+            var disqus_identifier = 'magic-wand';
+            var disqus_url = 'http://defundefined.com/fr/magic-wand/';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-lg-3 well well-sm" id="sidebar">
+<aside>
+    <section>
+        <ul class="list-group list-group-flush">
+                <li class="list-group-item"><h4><i class="icon-home icon-large"></i>Social</h4></li>
+                    <li class="list-group-item"><a href="http://www.linkedin.com/in/francoisalexis"><i
+                            class="icon-linkedin-sign icon-large"></i>linkedin
+                    </a></li>
+                    <li class="list-group-item"><a href="https://bitbucket.org/Hadhoke"><i
+                            class="icon-bitbucket-sign icon-large"></i>bitbucket
+                    </a></li>
+
+
+
+            <li class="list-group-item"><a href="http://defundefined.com/fr/tags.html"><h4><i class="icon-tags icon-large"></i>Tags</h4></a></li>
+                <li class="list-group-item tag-1">
+                    <a href="http://defundefined.com/fr/tag/c.html">
+                        C++
+                    </a>
+                </li>
+                <li class="list-group-item tag-1">
+                    <a href="http://defundefined.com/fr/tag/traitement-dimage.html">
+                        Traitement d'image
+                    </a>
+                </li>
+                <li class="list-group-item tag-4">
+                    <a href="http://defundefined.com/fr/tag/baguette-magique.html">
+                        Baguette magique
+                    </a>
+                </li>
+                <li class="list-group-item tag-4">
+                    <a href="http://defundefined.com/fr/tag/steganographie.html">
+                        Stéganographie
+                    </a>
+                </li>
+        </ul>
+    </section>
+</aside>        </div>
+    </div>
+</div>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://defundefined.com/fr/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://defundefined.com/fr/theme/js/respond.min.js"></script>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'defundefined'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+</body>
+</html>
