@@ -99,7 +99,8 @@
 	<a href="http://defundefined.com/fr/tag/baguette-magique.html">Baguette magique</a>
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>Qu'est-ce qu'une baguette magique ? Facile, c'est comme dans Harry Potter ... Oui, mais pas que ! En retouche d'image, une baguette magique permet de détourer un objet. C'est grâce à cet outil que tu peux détourer la fille de tes rêves sur une photo et la copier-coller à côté de toi sur ta photo de profil. Il y a bien sûr d'autres utilités, dans le milieu médical par exemple.</p>
+                <p><img alt="Banner" src="/images/magic-wand/banner.png" /></p>
+<p>Qu'est-ce qu'une baguette magique ? Facile, c'est comme dans Harry Potter ... Oui, mais pas que ! En retouche d'image, une baguette magique permet de détourer un objet. C'est grâce à cet outil que tu peux détourer la fille de tes rêves sur une photo et la copier-coller à côté de toi sur ta photo de profil. Il y a bien sûr d'autres utilités, dans le milieu médical par exemple.</p>
 <p>Il y a plusieurs algorithmes différent de baguette magique. Certains étant plus efficaces dans des cas précis, d'autres plus rapides, etc. En voici quelques-uns : les contours actifs, la propagation à partir d'un trait, deux traits ou encore d'un point. Nous allons étudier dans cet article la propagation à partir d'un point, la plus simple. Il fonctionne très bien sur des objets unicolores, qui sont bien distincts du fond de l'image.</p>
 <h1>Une histoire de propagation.</h1>
 <p>Nous allons, dans cet article, tenter de détourer des pièces de lego à partir de cette image.</p>
@@ -221,7 +222,7 @@
 <p><img alt="Limite de la propagation" src="/images/magic-wand/propagation-5.png" /></p>
 <p>Une fois que la propagation est terminée, nous obtenons un masque de la forme de l'objet à détourer, mais de petites imperfections peuvent rester visibles, comme ici.</p>
 <p><img alt="Détourage avec des imperfections" src="/images/magic-wand/imperfections.png" /></p>
-<p>Pour les corriger ce type d'imperfection, nous appliquons une opération de <a href="/images/magic-wand/imperfections.png">morphologie mathématique</a> sur notre masque : la dilatation. Cela a pour effet de combler les trous.</p>
+<p>Pour corriger ce type d'imperfection, nous appliquons une opération de <a href="/images/magic-wand/imperfections.png">morphologie mathématique</a> sur notre masque : la dilatation. Cela a pour effet de combler les trous.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -247,7 +248,7 @@
 23
 24</pre></div></td><td class="code"><div class="highlight"><pre><span class="cm">/**</span>
 <span class="cm"> * dilatation 8-connexe</span>
-<span class="cm"> * Each pixel is set with the maximum value of his height neighbors and himself</span>
+<span class="cm"> * Each pixel is set with the maximum value of his eight neighbors and himself</span>
 <span class="cm"> *</span>
 <span class="cm"> * @param image [in, out] Grayscale image to dilate</span>
 <span class="cm"> */</span>
@@ -343,7 +344,7 @@
 
 <p><img alt="Contour de la brique de lego" src="/images/magic-wand/contour.png" /></p>
 <h2>Un lissage s'il vous plait !</h2>
-<p>Il est possible d'ameliorer notre baguette magique avec un peu de magie ! Il est par exemple recommandé de lisser notre image avant le traitement. Un filtre gaussien convient parfaitement dans notre cas.</p>
+<p>Il est possible d'ameliorer notre baguette magique avec un peu de magie ! Il est par exemple recommandé de lisser notre image avant le traitement. Un <a href="http://fr.wikipedia.org/wiki/Lissage_d%27images">filtre gaussien</a> convient parfaitement dans notre cas.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -478,23 +479,23 @@
 
             <li class="list-group-item"><a href="http://defundefined.com/fr/tags.html"><h4><i class="icon-tags icon-large"></i>Tags</h4></a></li>
                 <li class="list-group-item tag-1">
-                    <a href="http://defundefined.com/fr/tag/c.html">
-                        C++
-                    </a>
-                </li>
-                <li class="list-group-item tag-1">
                     <a href="http://defundefined.com/fr/tag/traitement-dimage.html">
                         Traitement d'image
                     </a>
                 </li>
-                <li class="list-group-item tag-4">
-                    <a href="http://defundefined.com/fr/tag/baguette-magique.html">
-                        Baguette magique
+                <li class="list-group-item tag-1">
+                    <a href="http://defundefined.com/fr/tag/c.html">
+                        C++
                     </a>
                 </li>
                 <li class="list-group-item tag-4">
                     <a href="http://defundefined.com/fr/tag/steganographie.html">
                         Stéganographie
+                    </a>
+                </li>
+                <li class="list-group-item tag-4">
+                    <a href="http://defundefined.com/fr/tag/baguette-magique.html">
+                        Baguette magique
                     </a>
                 </li>
         </ul>
