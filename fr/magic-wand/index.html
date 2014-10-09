@@ -99,11 +99,11 @@
 	<a href="http://defundefined.com/fr/tag/baguette-magique.html">Baguette magique</a>
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p><img alt="Banner" src="/images/magic-wand/banner.png" /></p>
+                <p><img alt="Banner" src="/images/magic-wand/banner.jpg" /></p>
 <p>Qu'est-ce qu'une baguette magique ? Facile, c'est comme dans Harry Potter ... Oui, mais pas que ! En retouche d'image, une baguette magique permet de détourer un objet. C'est grâce à cet outil que tu peux détourer la fille de tes rêves sur une photo et la copier-coller à côté de toi sur ta photo de profil. Il y a bien sûr d'autres utilités, dans le milieu médical par exemple.</p>
 <p>Il y a plusieurs algorithmes différent de baguette magique. Certains étant plus efficaces dans des cas précis, d'autres plus rapides, etc. En voici quelques-uns : les contours actifs, la propagation à partir d'un trait, deux traits ou encore d'un point. Nous allons étudier dans cet article la propagation à partir d'un point, la plus simple. Il fonctionne très bien sur des objets unicolores, qui sont bien distincts du fond de l'image.</p>
 <h1>Une histoire de propagation.</h1>
-<p>Nous allons, dans cet article, tenter de détourer des pièces de lego à partir de cette image.</p>
+<p>Nous allons, dans cet article, tenter de détourer des pièces de Lego à partir de cette image.</p>
 <p><img alt="Briques de lego" src="/images/magic-wand/lego.jpg" /></p>
 <h2>Un point, c'est tout</h2>
 <p>Cet algorithme a besoin de deux entrées utilisateurs : un point de départ et un seuil. L'utilisateur commence donc par indiquer un point qui doit se trouver à l'intérieur de l'objet à détourer. L'objectif est de propager ce point pour qu'il recouvre entièrement l'objet désiré. Le seuil va quant à lui permettre d'ajuster le détourage.</p>
@@ -218,11 +218,11 @@
 </pre></div>
 </td></tr></table>
 
-<p>Lorsque cette propagation va arriver à un endroit avec de fort contraste comme le bord d'un objet, alors la différence de couleur entre deux pixels sera supérieure au seuil, et la propagation va s'arrêter dans cette direction.</p>
+<p>Lorsque cette propagation va arriver à un endroit avec de forts contrastes comme le bord d'un objet, alors la différence de couleur entre deux pixels sera supérieure au seuil, et la propagation va s'arrêter dans cette direction.</p>
 <p><img alt="Limite de la propagation" src="/images/magic-wand/propagation-5.png" /></p>
 <p>Une fois que la propagation est terminée, nous obtenons un masque de la forme de l'objet à détourer, mais de petites imperfections peuvent rester visibles, comme ici.</p>
 <p><img alt="Détourage avec des imperfections" src="/images/magic-wand/imperfections.png" /></p>
-<p>Pour corriger ce type d'imperfection, nous appliquons une opération de <a href="/images/magic-wand/imperfections.png">morphologie mathématique</a> sur notre masque : la dilatation. Cela a pour effet de combler les trous.</p>
+<p>Pour corriger ce type d'imperfections, nous appliquons une opération de <a href="/images/magic-wand/imperfections.png">morphologie mathématique</a> sur notre masque : la dilatation. Cela a pour effet de combler les trous.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -275,7 +275,7 @@
 
 <p><img alt="Après la dilatation" src="/images/magic-wand/after-dilatation.png" /></p>
 <h2>Garder le contour</h2>
-<p>Maintenant que nous avons un masque, il nous faut récupérer uniquement le contour de ce masque. Pour cela, il suffit de parser les pixels de notre masque, et de vérifier s'il a au moins un voisin ne faisant pas partie du masque. Si c'est le cas, alors ce pixel est sur un bord du masque. Une fois tous les pixels du contour récupéré, nous les fusionnons sur notre image principale. Cela a pour effet de tracer un trait autour de l'objet à détourer.</p>
+<p>Maintenant que nous avons un masque, il nous faut récupérer uniquement le contour de ce masque. Pour cela, il suffit de parser les pixels de notre masque, et de vérifier s'il a au moins un voisin ne faisant pas partie du masque. Si c'est le cas, alors ce pixel est sur un bord du masque. Une fois tous les pixels du contour récupérés, nous les fusionnons sur notre image principale. Cela a pour effet de tracer un trait autour de l'objet à détourer.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
